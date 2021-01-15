@@ -2,26 +2,26 @@
 NAME			=	##TARGETNAME##
 
 # PATH #
-##MAIN##MAIN_DIR		=	main
+# MAIN_DIR		=	main
 SRCS_DIR		=	srcs
 OBJS_DIR		=	objs
 INCS_DIR		=	includes
-VPATH			=	$(SRCS_DIR):$(OBJS_DIR):$(INCS_DIR)##MAIN-Y/N##
+VPATH			=	$(SRCS_DIR):$(OBJS_DIR):$(INCS_DIR)#:$(MAIN_DIR)
 
 # File with Path #
-##MAIN##MAIN_PATH		=	$(MAIN_DIR)/main.##file##
-SRCS_PATH		=	$(wildcard $(SRCS_DIR)/*.##file##)
+# MAIN_PATH		=	$(MAIN_DIR)/main.c
+SRCS_PATH		=	$(wildcard $(SRCS_DIR)/*.c)
 OBJS_PATH		=	$(patsubst $(SRCS_DIR)%,$(OBJS_DIR)%,$(SRCS_PATH:%.##file##=%.o))
-INCS_PATH		=	$(wildcard $(INCS_DIR)/*.##header##)
+INCS_PATH		=	$(wildcard $(INCS_DIR)/*.h)
 
 # File #
-##MAIN##MAIN			=	main.##file##
+# MAIN			=	main.##file##
 SRCS			=	$(patsubst $(SRCS_DIR)/%,%,$(SRCS_PATH))
 OBJS			=	$(patsubst $(SRCS_DIR)/%,%,$(OBJS_PATH))
 INCS			=	$(patsubst $(INCS_DIR)/%,%,$(INCS_PATH))
 
 # Compile #
-CC				=	##CC##
+CC				=	gcc
 CFLAGS			=	-Wall -Wextra -Werror
 # CVERSION		=
 LFLAGS  		=	-I $(INCS_DIR)
@@ -33,9 +33,9 @@ all				:	directories $(NAME)
 
 # Stuff #
 $(NAME)			:	$(OBJS_PATH)
-	##RULENAME##
+	$(CALLFLIB) $(OBJS_PATH) $(MAIN_PATH) -o $(NAME)
 
-$(OBJS_DIR)/%.o	:	%.##file## $(INCS)
+$(OBJS_DIR)/%.o	:	%.c $(INCS)
 	$(CALLFLIB) -c $< -o $@
 
 # Make the Directories #
