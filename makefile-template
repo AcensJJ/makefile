@@ -1,0 +1,58 @@
+# Exec #
+NAME			=	##TARGETNAME##
+
+# PATH #
+##MAIN##MAIN_DIR		=	main
+SRCS_DIR		=	srcs
+OBJS_DIR		=	objs
+INCS_DIR		=	includes
+VPATH			=	$(SRCS_DIR):$(OBJS_DIR):$(INCS_DIR)##MAIN-Y/N##
+
+# File with Path #
+##MAIN##MAIN_PATH		=	$(MAIN_DIR)/main.##file##
+SRCS_PATH		=	$(wildcard $(SRCS_DIR)/*.##file##)
+OBJS_PATH		=	$(patsubst $(SRCS_DIR)%,$(OBJS_DIR)%,$(SRCS_PATH:%.##file##=%.o))
+INCS_PATH		=	$(wildcard $(INCS_DIR)/*.##header##)
+
+# File #
+##MAIN##MAIN			=	main.##file##
+SRCS			=	$(patsubst $(SRCS_DIR)/%,%,$(SRCS_PATH))
+OBJS			=	$(patsubst $(SRCS_DIR)/%,%,$(OBJS_PATH))
+INCS			=	$(patsubst $(INCS_DIR)/%,%,$(INCS_PATH))
+
+# Compile #
+CC				=	##CC##
+CFLAGS			=	-Wall -Wextra -Werror
+# CVERSION		=
+LFLAGS  		=	-I $(INCS_DIR)
+CALLF			=	$(CC) $(CFLAGS) $(CVERSION)
+CALLFLIB		=	$(CC) $(CFLAGS) $(CVERSION) $(LFLAGS)
+
+# Defauilt Make #
+all				:	directories $(NAME)
+
+# Stuff #
+$(NAME)			:	$(OBJS_PATH)
+	##RULENAME##
+
+$(OBJS_DIR)/%.o	:	%.##file## $(INCS)
+	$(CALLFLIB) -c $< -o $@
+
+# Make the Directories #
+directories		:
+	@mkdir -p $(OBJS_DIR)
+
+# Clean obj #
+clean			:
+	@rm -f $(OBJS_PATH)
+	$(info Build done! Cleaning object files...)
+
+# Clean all #
+fclean			:	clean
+	@rm -rf $(OBJS_DIR)
+	@rm -f $(NAME)
+	$(info Build done! Cleaning $(NAME) exec...)
+
+re				:	fclean all
+
+.PHONY			:	all fclean clean re directories
