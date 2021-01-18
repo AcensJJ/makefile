@@ -16,9 +16,9 @@ INCS_PATH		=	$(wildcard $(INCS_DIR)/*.h)
 
 # File #
 # MAIN			=	main.##file##
-SRCS			=	$(patsubst $(SRCS_DIR)/%,%,$(SRCS_PATH))
-OBJS			=	$(patsubst $(SRCS_DIR)/%,%,$(OBJS_PATH))
-INCS			=	$(patsubst $(INCS_DIR)/%,%,$(INCS_PATH))
+SRCS			=	$(notdir $(SRCS_PATH))
+OBJS			=	$(notdir $(OBJS_PATH))
+INCS			=	$(notdir $(INCS_PATH))
 
 # Compile #
 CC				=	gcc
