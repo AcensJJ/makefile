@@ -1,21 +1,18 @@
 # Exec #
-NAME			=	##TARGETNAME##
+NAME			=	exec
 
 # PATH #
-# MAIN_DIR		=	main
 SRCS_DIR		=	srcs
 OBJS_DIR		=	objs
 INCS_DIR		=	includes
-VPATH			=	$(SRCS_DIR):$(OBJS_DIR):$(INCS_DIR)#:$(MAIN_DIR)
+VPATH			=	$(SRCS_DIR):$(OBJS_DIR):$(INCS_DIR)
 
 # File with Path #
-# MAIN_PATH		=	$(MAIN_DIR)/main.c
 SRCS_PATH		=	$(wildcard $(SRCS_DIR)/*.c)
 OBJS_PATH		=	$(patsubst $(SRCS_DIR)%,$(OBJS_DIR)%,$(SRCS_PATH:%.c=%.o))
 INCS_PATH		=	$(wildcard $(INCS_DIR)/*.h)
 
 # File #
-# MAIN			=	main.##file##
 SRCS			=	$(notdir $(SRCS_PATH))
 OBJS			=	$(notdir $(OBJS_PATH))
 INCS			=	$(notdir $(INCS_PATH))
@@ -32,8 +29,8 @@ CALLFLIB		=	$(CC) $(CFLAGS) $(CVERSION) $(LFLAGS)
 all				:	directories $(NAME)
 
 # Stuff #
-$(NAME)			:	$(OBJS_PATH) #$(MAIN_DIR)
-	$(CALLFLIB) $(OBJS_PATH) -o $(NAME) # || # $(CALLFLIB) $(OBJS_PATH) $(MAIN_PATH) -o $(NAME)
+$(NAME)			:	$(OBJS_PATH)
+	$(CALLFLIB) $(OBJS_PATH) -o $(NAME)
 
 $(OBJS_DIR)/%.o	:	%.c $(INCS)
 	$(CALLFLIB) -c $< -o $@
